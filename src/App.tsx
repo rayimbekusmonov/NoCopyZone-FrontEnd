@@ -11,31 +11,44 @@ import TeacherMonitoring from './pages/teacher/Monitoring';
 import TeacherCourses from './pages/teacher/Courses';
 import StudentDashboard from './pages/student/Dashboard';
 import TaskPage from './pages/student/TaskPage';
+import AdminDashboard from './pages/admin/Dashboard';
 
-const PrivateRoute: React.FC<{ children: React.ReactNode; role?: string }> = ({ children, role }) => {
+const PrivateRoute: React.FC<{ children: React.ReactNode; roles?: string[] }> = ({ children, roles }) => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" />;
-  if (role && user.role !== role) return <Navigate to="/login" />;
+  if (roles && !roles.includes(user.role)) return <Navigate to="/login" />;
   return <>{children}</>;
 };
 
 const AppRoutes = () => {
   const { user } = useAuth();
 
+  const getHome = () => {
+    if (!user) return '/login';
+    if (user.role === 'ROLE_ADMIN') return '/admin';
+    if (user.role === 'ROLE_TEACHER') return '/teacher';
+    return '/student';
+  };
+
   return (
     <Routes>
-      <Route path="/login" element={!user ? <Login /> : <Navigate to={user.role === 'ROLE_TEACHER' ? '/teacher' : '/student'} />} />
-      <Route path="/register" element={!user ? <Register /> : <Navigate to={user.role === 'ROLE_TEACHER' ? '/teacher' : '/student'} />} />
+      <Route path="/login" element={!user ? <Login /> : <Navigate to={getHome()} />} />
+      <Route path="/register" element={!user ? <Register /> : <Navigate to={getHome()} />} />
 
-      <Route path="/teacher" element={<PrivateRoute role="ROLE_TEACHER"><TeacherDashboard /></PrivateRoute>} />
-      <Route path="/teacher/monitoring/:courseId" element={<PrivateRoute role="ROLE_TEACHER"><TeacherMonitoring /></PrivateRoute>} />
-      <Route path="/teacher/courses" element={<PrivateRoute role="ROLE_TEACHER"><TeacherCourses /></PrivateRoute>} />
+      {/* Admin */}
+      <Route path="/admin" element={<PrivateRoute roles={['ROLE_ADMIN']}><AdminDashboard /></PrivateRoute>} />
 
-      <Route path="/student" element={<PrivateRoute role="ROLE_STUDENT"><StudentDashboard /></PrivateRoute>} />
-      <Route path="/student/task/:taskId" element={<PrivateRoute role="ROLE_STUDENT"><TaskPage /></PrivateRoute>} />
+      {/* Teacher */}
+      <Route path="/teacher" element={<PrivateRoute roles={['ROLE_TEACHER', 'ROLE_ADMIN']}><TeacherDashboard /></PrivateRoute>} />
+      <Route path="/teacher/monitoring/:courseId" element={<PrivateRoute roles={['ROLE_TEACHER', 'ROLE_ADMIN']}><TeacherMonitoring /></PrivateRoute>} />
+      <Route path="/teacher/courses" element={<PrivateRoute roles={['ROLE_TEACHER', 'ROLE_ADMIN']}><TeacherCourses /></PrivateRoute>} />
 
-      <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="*" element={<Navigate to="/login" />} />
+      {/* Student */}
+      <Route path="/student" element={<PrivateRoute roles={['ROLE_STUDENT']}><StudentDashboard /></PrivateRoute>} />
+      <Route path="/student/task/:taskId" element={<PrivateRoute roles={['ROLE_STUDENT']}><TaskPage /></PrivateRoute>} />
+
+      <Route path="/" element={<Navigate to={getHome()} />} />
+      <Route path="*" element={<Navigate to={getHome()} />} />
     </Routes>
   );
 };
@@ -45,11 +58,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <AppRoutes />
-        <ToastContainer
-          position="top-right"
-          theme="dark"
-          autoClose={3000}
-        />
+        <ToastContainer position="top-right" theme="dark" autoClose={3000} />
       </BrowserRouter>
     </AuthProvider>
   );
