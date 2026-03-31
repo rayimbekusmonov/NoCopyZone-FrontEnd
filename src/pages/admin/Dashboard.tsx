@@ -6,15 +6,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import {
   Users, BookOpen, Layers, Plus, X, Loader,
-  Trash2, UserPlus, UserMinus, Link2, Unlink
+  UserPlus, UserMinus, Link2, Unlink, ArrowRight
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Group { id: number; name: string; faculty: string; year: number; studentCount: number; courseCount: number; }
 interface User { id: number; fullName: string; email: string; role: string; }
 interface Course { id: number; name: string; description: string; teacherName: string; }
 
 const AdminDashboard: React.FC = () => {
-  const { user } = useAuth();
+  useAuth();
+  const navigate = useNavigate();
   const [groups, setGroups] = useState<Group[]>([]);
   const [students, setStudents] = useState<User[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
@@ -120,6 +122,13 @@ const AdminDashboard: React.FC = () => {
           <p className="text-slate-400 mt-1">Guruhlar, talabalar va kurslarni boshqaring</p>
         </motion.div>
 
+        {/* Quick links */}
+        <div className="flex gap-3 mb-6">
+          <button onClick={() => navigate('/admin/users')}
+            className="flex items-center gap-2 bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white px-4 py-2 rounded-xl text-sm transition">
+            <Users size={16} /> Foydalanuvchilarni boshqarish <ArrowRight size={14} />
+          </button>
+        </div>
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[

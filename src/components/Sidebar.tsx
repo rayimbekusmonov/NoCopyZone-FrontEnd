@@ -1,17 +1,18 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Shield, LayoutDashboard, BookOpen, LogOut, GraduationCap, Layers, ShieldCheck } from 'lucide-react';
+import { Shield, LayoutDashboard, BookOpen, LogOut, GraduationCap, Layers, ShieldCheck, Users } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const Sidebar: React.FC = () => {
   const { user, logout, isTeacher } = useAuth();
   const navigate = useNavigate();
   const isAdmin = user?.role === 'ROLE_ADMIN';
-  const isStudent = user?.role === 'ROLE_STUDENT';
+  
 
   const adminLinks = [
     { to: '/admin', icon: Layers, label: 'Admin Panel', end: true },
+    { to: '/admin/users', icon: Users, label: 'Foydalanuvchilar' },
     { to: '/teacher/courses', icon: BookOpen, label: 'Kurslar' },
   ];
   const teacherLinks = [
