@@ -59,7 +59,6 @@ const Monitoring: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
-  const [setExpandedStudent] = useState<number | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
 
   // Grading
@@ -85,7 +84,7 @@ const Monitoring: React.FC = () => {
     setLoading(true);
     setSelectedTask(task);
     setSelectedSub(null);
-    setExpandedStudent(null);
+
     try {
       const res = await api.get(`/proctor/task/${task.id}`);
       setSubmissions(res.data);
