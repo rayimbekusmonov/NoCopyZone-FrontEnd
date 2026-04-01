@@ -34,6 +34,8 @@ const CourseDetail: React.FC = () => {
   const [lectures, setLectures] = useState<Lecture[]>([]);
   const [activeTab, setActiveTab] = useState<'lectures' | 'tasks' | 'students' | 'monitoring'>('lectures');
   const [loading, setLoading] = useState(true);
+  const [allGroups, setAllGroups] = useState<{id: number; name: string; faculty: string; studentCount: number}[]>([]);
+  const [showGroupModal, setShowGroupModal] = useState(false);
 
   // Modals
   const [showAddStudentModal, setShowAddStudentModal] = useState(false);
@@ -77,6 +79,21 @@ const CourseDetail: React.FC = () => {
     const enrolledEmails = enrollments.map(e => e.studentEmail);
     setAllStudents(res.data.filter((s: Student) => !enrolledEmails.includes(s.email)));
     setShowAddStudentModal(true);
+  };
+
+  const openGroupModal = async () => {
+    const res = await api.get('/groups');
+    setAllGroups(res.data);
+    setShowGroupModal(true);
+  };
+
+  const enrollGroup = async (groupId: number) => {
+    try {
+      const res = await api.post(`/enrollments/course/${courseId}/group/${groupId}`);
+      toast.success(`${res.data.groupName}: ${res.data.enrolled} talaba qo'shildi, ${res.data.skipped} allaqachon bor edi`);
+      setShowGroupModal(false);
+      fetchAll();
+    } catch (err: any) { toast.error(err.response?.data?.error || 'Xato'); }
   };
 
   const addStudent = async (studentId: number) => {
@@ -290,6 +307,10 @@ const CourseDetail: React.FC = () => {
                 className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl text-sm transition">
                 <UserPlus size={16} /> Talaba qo'shish
               </button>
+              <button onClick={openGroupModal}
+                className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-3 py-2 rounded-xl text-sm transition">
+                <Users size={16} /> Guruh biriktirish
+              </button>
             </div>
             {enrollments.length === 0 ? (
               <div className="glass rounded-2xl p-12 text-center">
@@ -437,6 +458,35 @@ const CourseDetail: React.FC = () => {
                       </button>
                     </div>
                   ))}
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+        <AnimatePresence>
+          {showGroupModal && (
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+              <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-md">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-white">Guruh biriktirish</h3>
+                  <button onClick={() => setShowGroupModal(false)} className="text-slate-400 hover:text-white"><X size={20} /></button>
+                </div>
+                <p className="text-slate-400 text-sm mb-4">Guruhni tanlang — barcha talabalar avtomatik qo'shiladi</p>
+                <div className="space-y-2 max-h-80 overflow-y-auto">
+                  {allGroups.map(group => (
+                    <div key={group.id} className="flex items-center justify-between bg-slate-800 rounded-xl px-4 py-3">
+                      <div>
+                        <div className="text-white font-medium">{group.name}</div>
+                        <div className="text-slate-400 text-sm">{group.faculty} · {group.studentCount} talaba</div>
+                      </div>
+                      <button onClick={() => enrollGroup(group.id)}
+                        className="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-sm transition">
+                        <Users size={14} /> Biriktirish
+                      </button>
+                    </div>
+                  ))}
+                  {allGroups.length === 0 && <p className="text-slate-400 text-center py-8">Guruhlar yo'q</p>}
                 </div>
               </motion.div>
             </div>
