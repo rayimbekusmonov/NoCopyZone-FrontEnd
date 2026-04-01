@@ -13,6 +13,7 @@ import TeacherCourses from './pages/teacher/Courses';
 import CourseDetail from './pages/teacher/CourseDetail';
 import TeacherMonitoring from './pages/teacher/Monitoring';
 import TeacherStatistics from './pages/teacher/Statistics';
+import Grading from './pages/teacher/Grading';
 
 import StudentDashboard from './pages/student/Dashboard';
 import CoursePage from './pages/student/CoursePage';
@@ -56,6 +57,7 @@ const AppRoutes = () => {
       <Route path="/teacher/courses/:courseId"  element={<PrivateRoute roles={['ROLE_TEACHER','ROLE_ADMIN']}><CourseDetail /></PrivateRoute>} />
       <Route path="/teacher/monitoring/:courseId" element={<PrivateRoute roles={['ROLE_TEACHER','ROLE_ADMIN']}><TeacherMonitoring /></PrivateRoute>} />
       <Route path="/teacher/statistics"         element={<PrivateRoute roles={['ROLE_TEACHER','ROLE_ADMIN']}><TeacherStatistics /></PrivateRoute>} />
+      <Route path="/teacher/grading"           element={<PrivateRoute roles={['ROLE_TEACHER','ROLE_ADMIN']}><Grading /></PrivateRoute>} />
 
       {/* Student */}
       <Route path="/student"                    element={<PrivateRoute roles={['ROLE_STUDENT']}><StudentDashboard /></PrivateRoute>} />

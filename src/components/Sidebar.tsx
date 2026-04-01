@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import {
   Shield, LayoutDashboard, BookOpen, LogOut,
   GraduationCap, Layers, ShieldCheck, Users,
-  User, TrendingUp, BarChart2
+  User, TrendingUp, BarChart2, Star
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -24,6 +24,7 @@ const Sidebar: React.FC = () => {
   const teacherLinks = [
     { to: '/teacher', icon: LayoutDashboard, label: 'Dashboard', end: true },
     { to: '/teacher/courses', icon: BookOpen, label: 'Kurslar' },
+    { to: '/teacher/grading', icon: Star, label: 'Baholash' },
     { to: '/teacher/statistics', icon: BarChart2, label: 'Statistika' },
     { to: '/profile', icon: User, label: 'Profil' },
   ];
