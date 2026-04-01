@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Landing from './pages/Landing';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -41,6 +42,7 @@ const AppRoutes = () => {
 
   return (
     <Routes>
+      <Route path="/" element={!user ? <Landing /> : <Navigate to={getHome()} />} />
       <Route path="/login"    element={!user ? <Login />    : <Navigate to={getHome()} />} />
       <Route path="/register" element={!user ? <Register /> : <Navigate to={getHome()} />} />
 
@@ -65,7 +67,6 @@ const AppRoutes = () => {
       <Route path="/student/task/:taskId"       element={<PrivateRoute roles={['ROLE_STUDENT']}><TaskPage /></PrivateRoute>} />
       <Route path="/student/progress"           element={<PrivateRoute roles={['ROLE_STUDENT']}><Progress /></PrivateRoute>} />
 
-      <Route path="/"  element={<Navigate to={getHome()} />} />
       <Route path="*"  element={<Navigate to={getHome()} />} />
     </Routes>
   );
