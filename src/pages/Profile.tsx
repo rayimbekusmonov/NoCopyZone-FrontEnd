@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { User, Lock, Mail, Shield, Loader, Check } from 'lucide-react';
 
 const Profile: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

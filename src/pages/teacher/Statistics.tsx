@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Sidebar from '../../components/Sidebar';
 import api from '../../api/axios';
 import { motion } from 'framer-motion';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { BookOpen, Users, ClipboardList, TrendingUp, AlertTriangle } from 'lucide-react';
 
 interface Course { id: number; name: string; }
@@ -46,7 +46,6 @@ const TeacherStatistics: React.FC = () => {
   const submitted = allSubmissions.filter(s => s.status === 'SUBMITTED');
   const suspicious = allSubmissions.filter(s => s.highRiskEvents > 0);
   const avgScore = graded.length > 0 ? Math.round(graded.reduce((a, b) => a + (b.score || 0), 0) / graded.length) : 0;
-  const avgIntegrity = allSubmissions.length > 0 ? Math.round(allSubmissions.reduce((a, b) => a + b.integrityScore, 0) / allSubmissions.length) : 100;
 
   // Task type distribution
   const typeCount: Record<string, number> = {};

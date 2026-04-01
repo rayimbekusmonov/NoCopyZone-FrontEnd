@@ -74,20 +74,6 @@ const TaskPage: React.FC = () => {
     setIsFullscreen(false);
   }, []);
 
-  useEffect(() => {
-    const handler = () => {
-      const isFull = !!document.fullscreenElement;
-      setIsFullscreen(isFull);
-      if (!isFull && !submitted && submissionRef.current) {
-        showWarningAlert('Fullscreen rejimdan chiqdingiz!');
-        sendEvent('FOCUS_LOST', 'Fullscreen rejimdan chiqildi');
-      }
-    };
-    document.addEventListener('fullscreenchange', handler);
-    return () => document.removeEventListener('fullscreenchange', handler);
-  }, [submitted]);
-
-  // ===== PROCTORING =====
   const sendEvent = useCallback(async (eventType: string, details: string) => {
     if (!submissionRef.current || submissionRef.current.status === 'SUBMITTED') return;
     try {
@@ -106,6 +92,19 @@ const TaskPage: React.FC = () => {
     setTimeout(() => setShowWarning(false), 4000);
     setTabSwitchCount(prev => prev + 1);
   }, []);
+
+  useEffect(() => {
+    const handler = () => {
+      const isFull = !!document.fullscreenElement;
+      setIsFullscreen(isFull);
+      if (!isFull && !submitted && submissionRef.current) {
+        showWarningAlert('Fullscreen rejimdan chiqdingiz!');
+        sendEvent('FOCUS_LOST', 'Fullscreen rejimdan chiqildi');
+      }
+    };
+    document.addEventListener('fullscreenchange', handler);
+    return () => document.removeEventListener('fullscreenchange', handler);
+  }, [submission, submitted, sendEvent, showWarningAlert]);
 
   // ===== EVENT LISTENERS =====
   useEffect(() => {
@@ -151,6 +150,18 @@ const TaskPage: React.FC = () => {
     return () => clearInterval(timer);
   }, [task]);
 
+  const handleFinishQuiz = async () => {
+    if (!submission) return;
+    setLoading(true);
+    try {
+      const res = await api.post(`/quiz/submission/${submission.id}/finish`);
+      setQuizResult(res.data);
+      setSubmitted(true);
+      exitFullscreen();
+      toast.success(`Quiz yakunlandi! Ball: ${res.data.score}/${res.data.maxScore}`);
+    } catch { toast.error('Xato'); } finally { setLoading(false); }
+  };
+
   // ===== QUIZ TIMER =====
   useEffect(() => {
     if (!isQuiz || !task?.durationMinutes || submitted || quizResult) return;
@@ -162,7 +173,7 @@ const TaskPage: React.FC = () => {
       });
     }, 1000);
     return () => clearInterval(timer);
-  }, [isQuiz, task, submitted]);
+  }, [isQuiz, task, submitted, handleFinishQuiz, quizResult]);
 
   // ===== INIT =====
   useEffect(() => {
@@ -192,18 +203,6 @@ const TaskPage: React.FC = () => {
       await api.post(`/quiz/submission/${submission.id}/answer`, { questionId, selected: answer });
     } catch { toast.error('Javob saqlanmadi'); }
     finally { setSavingAnswer(false); }
-  };
-
-  const handleFinishQuiz = async () => {
-    if (!submission) return;
-    setLoading(true);
-    try {
-      const res = await api.post(`/quiz/submission/${submission.id}/finish`);
-      setQuizResult(res.data);
-      setSubmitted(true);
-      exitFullscreen();
-      toast.success(`Quiz yakunlandi! Ball: ${res.data.score}/${res.data.maxScore}`);
-    } catch { toast.error('Xato'); } finally { setLoading(false); }
   };
 
   const handleSubmit = async () => {

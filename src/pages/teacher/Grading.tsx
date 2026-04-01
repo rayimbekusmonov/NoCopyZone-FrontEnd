@@ -2,10 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Sidebar from '../../components/Sidebar';
 import api from '../../api/axios';
 import { toast } from 'react-toastify';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
-  ClipboardList, ChevronRight, X, Loader, Check,
-  AlertTriangle, FileText, Code, User, Calendar,
+  ClipboardList, Loader, Check,
+  AlertTriangle, FileText, Code, User,
   Shield, Star, MessageSquare
 } from 'lucide-react';
 

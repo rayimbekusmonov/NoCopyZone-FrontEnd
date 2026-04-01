@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import {
   ArrowLeft, Shield, AlertTriangle, Eye, Users,
-  RefreshCw, CheckCircle2, Clock, X, ChevronDown,
+  RefreshCw, CheckCircle2, ChevronDown,
   ChevronUp, Loader, Star, MessageSquare
 } from 'lucide-react';
 
@@ -59,7 +59,7 @@ const Monitoring: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
-  const [expandedStudent, setExpandedStudent] = useState<number | null>(null);
+  const [setExpandedStudent] = useState<number | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('ALL');
 
   // Grading

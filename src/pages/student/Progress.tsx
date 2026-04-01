@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Sidebar from '../../components/Sidebar';
 import api from '../../api/axios';
 import { motion } from 'framer-motion';
-import { RadialBarChart, RadialBar, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, LineChart, Line } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { TrendingUp, Award, ClipboardList, Target } from 'lucide-react';
 
 interface Submission { id: number; taskId: number; taskTitle: string; status: string; score?: number; integrityScore: number; submittedAt?: string; }

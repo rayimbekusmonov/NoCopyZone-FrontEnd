@@ -3,7 +3,7 @@ import Sidebar from '../../components/Sidebar';
 import api from '../../api/axios';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Plus, X, Loader, Shield, ShieldOff, Key, Trash2, RefreshCw } from 'lucide-react';
+import { Plus, X, Loader, Shield, ShieldOff, Key, Trash2, RefreshCw } from 'lucide-react';
 
 interface UserDetail {
   id: number; fullName: string; email: string; role: string;

@@ -38,7 +38,6 @@ const Sidebar: React.FC = () => {
   const links = isAdmin ? adminLinks : isTeacher ? teacherLinks : studentLinks;
 
   const roleLabel = isAdmin ? 'Admin' : isTeacher ? 'O\'qituvchi' : 'Talaba';
-  const RoleIcon = isAdmin ? ShieldCheck : isTeacher ? BookOpen : GraduationCap;
   const roleColor = isAdmin ? 'text-amber-400' : 'text-indigo-400';
   const roleBg = isAdmin ? 'bg-amber-500/20' : 'bg-indigo-500/20';
 

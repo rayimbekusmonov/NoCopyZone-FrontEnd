@@ -154,11 +154,6 @@ const CourseDetail: React.FC = () => {
     setSubmissions(res.data);
   };
 
-  const getStudentId = (email: string) => {
-    const found = allStudents.find(s => s.email === email);
-    return found?.id;
-  };
-
   if (loading) return <div className="min-h-screen bg-slate-950 flex items-center justify-center"><div className="text-slate-400">Yuklanmoqda...</div></div>;
 
   return (
