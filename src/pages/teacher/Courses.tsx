@@ -82,7 +82,6 @@ const TeacherCourses: React.FC = () => {
   const taskTypes = [
     { value: 'LAB', label: 'Laboratoriya' }, { value: 'CODE', label: 'Dasturlash' },
     { value: 'QUIZ', label: 'Test (ON/YN)' }, { value: 'ESSAY', label: 'Yozma ish' },
-    { value: 'PRESENTATION', label: 'Prezentatsiya' }, { value: 'FILE', label: 'Fayl' },
   ];
 
   return (
