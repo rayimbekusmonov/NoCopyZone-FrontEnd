@@ -38,14 +38,23 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => { fetchAll(); }, []);
 
   const fetchAll = async () => {
-    const [groupsRes, studentsRes, coursesRes] = await Promise.all([
-      api.get('/groups'),
-      api.get('/users/students'),
-      api.get('/courses'),
-    ]);
-    setGroups(groupsRes.data);
-    setStudents(studentsRes.data);
-    setCourses(coursesRes.data);
+    try {
+      const groupsRes = await api.get('/groups');
+      setGroups(groupsRes.data);
+      console.log('groups OK');
+    } catch(e) { console.error('groups XATO', e); }
+  
+    try {
+      const studentsRes = await api.get('/users/students');
+      setStudents(studentsRes.data);
+      console.log('students OK');
+    } catch(e) { console.error('students XATO', e); }
+  
+    try {
+      const coursesRes = await api.get('/courses');
+      setCourses(coursesRes.data);
+      console.log('courses OK');
+    } catch(e) { console.error('courses XATO', e); }
   };
 
   const fetchGroupStudents = async (groupId: number) => {

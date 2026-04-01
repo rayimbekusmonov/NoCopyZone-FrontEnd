@@ -12,7 +12,7 @@ import {
 
 interface Course { id: number; name: string; description: string; teacherName: string; }
 interface Student { id: number; fullName: string; email: string; role: string; }
-interface Enrollment { id: number; studentName: string; studentEmail: string; enrolledAt: string; }
+interface Enrollment { id: number; studentId: number; studentName: string; studentEmail: string; enrolledAt: string; }
 interface Task { id: number; title: string; type: string; maxScore: number; deadline: string; }
 interface Lecture { id: number; title: string; description: string; content: string; fileUrl: string; videoUrl: string; orderNum: number; }
 interface SubmissionStat { submissionId: number; studentName: string; studentEmail: string; integrityScore: number; status: string; score?: number; highRiskEvents: number; }
@@ -333,7 +333,7 @@ const CourseDetail: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-slate-500 text-xs">{new Date(e.enrolledAt).toLocaleDateString()}</span>
-                      <button onClick={() => removeStudent(allStudents.find(s => s.email === e.studentEmail)?.id || 0)}
+                      <button onClick={() => removeStudent(e.studentId)}
                         className="text-slate-500 hover:text-red-400 transition p-1">
                         <UserMinus size={16} />
                       </button>

@@ -29,13 +29,98 @@ body {
 }
 
 .glass {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(51, 65, 85, 0.5);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .gradient-text {
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* ===== TipTap Essay Editor ===== */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror h1 { font-size: 2em; font-weight: bold; margin: 0.5em 0; color: #f1f5f9; }
+.ProseMirror h2 { font-size: 1.5em; font-weight: bold; margin: 0.5em 0; color: #e2e8f0; }
+.ProseMirror h3 { font-size: 1.25em; font-weight: bold; margin: 0.5em 0; color: #cbd5e1; }
+
+.ProseMirror p { margin: 0.5em 0; line-height: 1.7; }
+.ProseMirror strong { color: #f8fafc; }
+.ProseMirror em { color: #e2e8f0; }
+.ProseMirror u { text-underline-offset: 3px; }
+.ProseMirror s { color: #64748b; }
+
+.ProseMirror code {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  color: #a5f3fc;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid #6366f1;
+  margin: 1em 0;
+  padding: 0.5em 1em;
+  color: #94a3b8;
+  background: rgba(99, 102, 241, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+.ProseMirror ul { list-style-type: disc; padding-left: 1.5em; margin: 0.5em 0; }
+.ProseMirror ol { list-style-type: decimal; padding-left: 1.5em; margin: 0.5em 0; }
+.ProseMirror li { margin: 0.25em 0; color: #cbd5e1; }
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid #334155;
+  margin: 1.5em 0;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  margin: 0.5em 0;
+}
+
+/* Table */
+.ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1em 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.ProseMirror th {
+  background: #1e293b;
+  color: #e2e8f0;
+  font-weight: 600;
+  padding: 8px 12px;
+  border: 1px solid #334155;
+  text-align: left;
+}
+.ProseMirror td {
+  padding: 8px 12px;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+}
+.ProseMirror tr:nth-child(even) td { background: rgba(30, 41, 59, 0.4); }
+.ProseMirror .selectedCell { background: rgba(99, 102, 241, 0.1) !important; }
+
+/* Placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #475569;
+  pointer-events: none;
+  float: left;
+  height: 0;
 }

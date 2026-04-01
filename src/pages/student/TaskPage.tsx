@@ -9,6 +9,7 @@ import {
   ArrowLeft, Send, AlertTriangle, Clock,
   Maximize, ShieldAlert, CheckCircle2, Circle, Code, AlignLeft
 } from 'lucide-react';
+import EssayEditor from '../../components/EssayEditor';
 
 interface Task {
   id: number; title: string; description: string;
@@ -498,9 +499,7 @@ const TaskPage: React.FC = () => {
               {isCode ? (
                 <CodeEditor value={content} onChange={setContent} readOnly={submitted} />
               ) : (
-                <textarea value={content} onChange={e => setContent(e.target.value)}
-                  placeholder="Javobingizni shu yerga yozing..."
-                  className="flex-1 bg-transparent text-white p-6 resize-none focus:outline-none text-sm leading-relaxed placeholder-slate-600" />
+                  <EssayEditor value={content} onChange={setContent} readOnly={submitted} />
               )}
             </>
           )}
